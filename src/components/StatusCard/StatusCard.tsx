@@ -3,11 +3,14 @@ import { MainCard, MainContainer, Text, StatusBar, Timer } from './card.styles';
 import { StatusCardType, StatusStateType, ErrorStateType } from './type';
 import { useEffect, useState } from 'react';
 import { getCurrentStatus } from '../../utils/axios';
+import moment from 'moment';
 
 const StatusCard = ({ endpoint }: StatusCardType) => {
   const [status, setStatus] = useState<StatusStateType>()
   const [error, setError] = useState<ErrorStateType>()
   
+  const newTime = moment(status?.time).format('LTS'); 
+
   useEffect(() => {
       getCurrentStatus(setError, endpoint)
         .then(status => {
@@ -40,7 +43,7 @@ const StatusCard = ({ endpoint }: StatusCardType) => {
                   {status?.hostname}
                 </Text>
                 <Timer>
-                  {status?.time}
+                  {newTime}
                 </Timer>
               </div>
             </MainCard>
